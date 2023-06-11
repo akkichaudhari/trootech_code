@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const categories = require('./category.route')
+const category = require('./category.route')
 // router.use("/products", ProductRoutes);
 
-router.use("/category", categories);
+router.use("/category", category);
 
 module.exports = router;

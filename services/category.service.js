@@ -1,5 +1,5 @@
 const models = require("../models");
-const productCategoryModels = models.categories;
+const productCategoryModels = models.category;
 
 const addProductCategory = async (productCategoryDetail) => {
   try {
@@ -11,10 +11,7 @@ const addProductCategory = async (productCategoryDetail) => {
 
 const getAllProductCategory = async (condition, sort) => {
   try {
-  
     return await productCategoryModels.findAll({
-      where: condition,
-      sort,
       distinct: true,
     });
   } catch (error) {
@@ -22,9 +19,9 @@ const getAllProductCategory = async (condition, sort) => {
   }
 };
 
-const getProductCategoryById = async (condition) => {
+const getProductCategoryById = async (id) => {
   try {
-    return await productCategoryModels.findOne({ where: condition });
+    return await productCategoryModels.findOne({ where: { id: id.id } });
   } catch (error) {
     console.log(error);
   }

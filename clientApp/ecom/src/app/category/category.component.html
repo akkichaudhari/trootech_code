@@ -1,33 +1,27 @@
 <div class="container">
-    <div class="row">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td colspan="2">Larry the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+    <h2>Category List</h2>
+    <button class="btn btn-sm btn-primary m-2" (click)="openCatForm()">Add +</button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Parent ID</th>
+          <th>Actions</th> <!-- New column for actions -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of categories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.parent_id }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary m-2" (click)="openEditModal(category.id)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteCategory(category.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
