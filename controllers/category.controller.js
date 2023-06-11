@@ -1,10 +1,10 @@
 const Joi = require("joi");
-const productCategoryService = require("./../services/category.service");
+const categoryService = require("./../services/category.service");
 var { Op } = require("sequelize");
 
 const getCategoryList = async (req, res) => {
   try {
-    const rows = await productCategoryService.getAllProductCategory();
+    const rows = await categoryService.getAllCategory();
     return res.status(200).json({
       status: "success",
       status_code: 200,
@@ -20,7 +20,7 @@ const getCategoryList = async (req, res) => {
   }
 };
 
-const addProductCategory = async (req, res) => {
+const addCategory = async (req, res) => {
   try {
     const { body } = req;
     const authSchema = Joi.object().keys({
@@ -35,21 +35,18 @@ const addProductCategory = async (req, res) => {
         error: error.details[0].message,
       });
     }
-    let productCategoryExist =
-      await productCategoryService.getProductCategoryById({
-        name: value.name,
-      });
-    if (productCategoryExist) {
+    let categoryExist = await categoryService.getCategoryById({
+      name: value.name,
+    });
+    if (categoryExist) {
       return res.status(403).json({
         status: "fail",
         status_code: 403,
         error: "Category already exists",
       });
     }
-    let newProductCategory = await productCategoryService.addProductCategory(
-      value
-    );
-    if (!newProductCategory) {
+    let newCategory = await categoryService.addCategory(value);
+    if (!newCategory) {
       return res.status(403).json({
         status: "fail",
         status_code: 403,
@@ -71,16 +68,14 @@ const addProductCategory = async (req, res) => {
   }
 };
 
-const getDetailProductCategory = async (req, res) => {
+const getDetailCategory = async (req, res) => {
   try {
-    const productCategory = await productCategoryService.getProductCategoryById(
-      {
-        id: req.params.id,
-      }
-    );
+    const category = await categoryService.getCategoryById({
+      id: req.params.id,
+    });
     return res
       .status(200)
-      .json({ status: "success", status_code: 200, data: productCategory });
+      .json({ status: "success", status_code: 200, data: category });
   } catch (error) {
     console.log("error-->", error);
     res.status(500).json({
@@ -91,12 +86,12 @@ const getDetailProductCategory = async (req, res) => {
   }
 };
 
-const removeProductCategory = async (req, res) => {
+const removeCategory = async (req, res) => {
   try {
-    const productCategory = await productCategoryService.removeProductCategory({
+    const category = await categoryService.removeCategory({
       id: req.params.id,
     });
-    if (productCategory === 1)
+    if (category === 1)
       return res.status(200).json({
         status: "success",
         status_code: 200,
@@ -117,7 +112,7 @@ const removeProductCategory = async (req, res) => {
   }
 };
 
-const updateProductCategory = async (req, res) => {
+const updateCategory = async (req, res) => {
   try {
     const { body } = req;
     const authSchema = Joi.object().keys({
@@ -136,9 +131,8 @@ const updateProductCategory = async (req, res) => {
     const condition = {
       [Op.and]: [{ name: value.name }, { id: { [Op.not]: req.params.id } }],
     };
-    let productCategoryExist =
-      await productCategoryService.getProductCategoryById(condition);
-    if (productCategoryExist) {
+    let categoryExist = await categoryService.getCategoryById(condition);
+    if (categoryExist) {
       return res.status(403).json({
         status: "fail",
         status_code: 403,
@@ -146,9 +140,8 @@ const updateProductCategory = async (req, res) => {
       });
     }
     value.id = parseInt(req.params.id);
-    let updatedProductCategory =
-      await productCategoryService.updateProductCategoryById(value);
-    if (updatedProductCategory[0] === 1)
+    let updatedCategory = await categoryService.updateCategoryById(value);
+    if (updatedCategory[0] === 1)
       return res.status(200).json({
         status: "success",
         status_code: 200,
@@ -171,8 +164,8 @@ const updateProductCategory = async (req, res) => {
 
 module.exports = {
   getCategoryList,
-  addProductCategory,
-  getDetailProductCategory,
-  removeProductCategory,
-  updateProductCategory,
+  addCategory,
+  getDetailCategory,
+  removeCategory,
+  updateCategory,
 };

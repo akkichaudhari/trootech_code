@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     category_id: {
-      type: DataTypes.INTEGER(10).UNSIGNED,
+      type:  DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: Category,

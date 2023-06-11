@@ -1,8 +1,8 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('category', {
+    await queryInterface.createTable("category", {
       id: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
+        type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -12,19 +12,19 @@ module.exports = {
         allowNull: false,
       },
       parent_id: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
+        type: Sequelize.INTEGER,
         defaultValue: null,
         references: {
-          model: 'category',
-          key: 'id',
-          onDelete: 'CASCADE',
-          onUpdate: 'CASCADE',
+          model: "category",
+          key: "id",
+          onDelete: "CASCADE",
+          onUpdate: "CASCADE",
         },
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('category');
+    await queryInterface.dropTable("category");
   },
 };

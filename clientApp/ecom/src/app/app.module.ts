@@ -10,13 +10,15 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ProductFormComponent } from './product/product-form/product-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductComponent,
     CategoryComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,

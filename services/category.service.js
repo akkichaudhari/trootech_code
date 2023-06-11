@@ -1,7 +1,7 @@
 const models = require("../models");
 const productCategoryModels = models.category;
 
-const addProductCategory = async (productCategoryDetail) => {
+const addCategory = async (productCategoryDetail) => {
   try {
     return await productCategoryModels.create(productCategoryDetail);
   } catch (error) {
@@ -9,7 +9,7 @@ const addProductCategory = async (productCategoryDetail) => {
   }
 };
 
-const getAllProductCategory = async (condition, sort) => {
+const getAllCategory = async (condition, sort) => {
   try {
     return await productCategoryModels.findAll({
       distinct: true,
@@ -19,7 +19,7 @@ const getAllProductCategory = async (condition, sort) => {
   }
 };
 
-const getProductCategoryById = async (id) => {
+const getCategoryById = async (id) => {
   try {
     return await productCategoryModels.findOne({ where: { id: id.id } });
   } catch (error) {
@@ -27,7 +27,7 @@ const getProductCategoryById = async (id) => {
   }
 };
 
-const updateProductCategoryById = async (productCategoryDetail) => {
+const updateCategoryById = async (productCategoryDetail) => {
   try {
     return await productCategoryModels.update(productCategoryDetail, {
       where: { id: productCategoryDetail.id },
@@ -37,7 +37,7 @@ const updateProductCategoryById = async (productCategoryDetail) => {
   }
 };
 
-const removeProductCategory = async (condition) => {
+const removeCategory = async (condition) => {
   try {
     return await productCategoryModels.destroy({ where: condition });
   } catch (error) {
@@ -46,9 +46,9 @@ const removeProductCategory = async (condition) => {
 };
 
 module.exports = {
-  addProductCategory,
-  getAllProductCategory,
-  getProductCategoryById,
-  updateProductCategoryById,
-  removeProductCategory,
+  addCategory,
+  getAllCategory,
+  getCategoryById,
+  updateCategoryById,
+  removeCategory,
 };

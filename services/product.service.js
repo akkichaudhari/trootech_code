@@ -1,67 +1,54 @@
 const models = require("../models");
 const productModels = models.product;
 
+const addProduct = async (productDetail) => {
+  try {
+    return await productModels.create(productDetail);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const addProductCategory = async (productCategoryDetail) => {
-    try {
-        return await productModels.create(productCategoryDetail);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
+const getAllProduct = async () => {
+  try {
+    return await productModels.findAll({
+      distinct: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const getAllProductCategory = async (condition, pageDetail, sort) => {
-    try {
-        if (!pageDetail) {
-            pageDetail = { page: 0, pageSize: 10 }
-        }
+const getProductDetail = async (condition) => {
+  try {
+    return await productModels.findOne({ where: condition });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-        if (!sort) {
-            sort = { order: [["createdAt", 'DESC']] };
-        }
-        return await productModels.findAll({
-            where: condition,
-            sort,
-            distinct: true
-        }, pageDetail);
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
+const updateProductDetail = async (productDetail) => {
+  try {
+    return await productModels.update(productDetail, {
+      where: { id: productDetail.id },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-const getProductCategoryDetail = async (condition) => {
-    try {
-        return await productModels.findOne({ where: condition });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-const updateProductCategoryDetail = async (productCategoryDetail) => {
-    try {
-        return await productModels.update(productCategoryDetail, { where: { id: productCategoryDetail.id } });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
-const removeProductCategory = async (condition) => {
-    try {
-        return await productModels.destroy({ where: condition });
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
+const removeProduct = async (condition) => {
+  try {
+    return await productModels.destroy({ where: condition });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 module.exports = {
-    addProductCategory,
-    getAllProductCategory,
-    getProductCategoryDetail,
-    updateProductCategoryDetail,
-    removeProductCategory
-}
+  addProduct,
+  getAllProduct,
+  getProductDetail,
+  updateProductDetail,
+  removeProduct,
+};
