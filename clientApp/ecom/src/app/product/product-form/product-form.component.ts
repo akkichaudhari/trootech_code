@@ -22,11 +22,11 @@ export class ProductFormComponent {
   ngOnInit() {
     this.createProductForm();
     this.loadCategories()
+    this.loadproductbyId()
   }
 
   createProductForm() {
     this.productForm = this.formBuilder.group({
-      id: [''],
       name: ['', Validators.required],
       categoryIds: [[]],
       price: ['', Validators.required]
@@ -71,6 +71,7 @@ export class ProductFormComponent {
         .subscribe(
           (res) => {
             this.productForm.patchValue(res.data);
+            this.productForm.controls['categoryIds'].patchValue(res.data?.categories.map((i: { id: any; }) => i.id))
           },
           (error) => {
             console.error('Error loading product:', error);
@@ -79,12 +80,14 @@ export class ProductFormComponent {
     }
   }
 
-  updateCategory(): void {
+  updateProduct(): void {
     if (this.productForm.invalid) {
       return;
     }
 
     const productData = this.productForm.value;
+    productData.categoryIds ? productData.categoryIds : delete productData.categoryIds
+ 
     this.productService.updateProduct(this.productId, productData)
       .subscribe(
         (response) => {

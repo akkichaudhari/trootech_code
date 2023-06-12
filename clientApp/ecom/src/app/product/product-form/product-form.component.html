@@ -21,12 +21,16 @@
     </div>
     <div class="mb-3">
 
-      <label for="parent_id">Categories</label>
-      <ng-select [items]="parentCategories" bindLabel="name" bindValue="id" placeholder="Select a parent category"
-        formControlName="parent_id" [multiple]="true" formControlName="categoryIds">
+      <label for="categoryIds">Categories</label>
+      <ng-select [items]="parentCategories" bindLabel="name" bindValue="id" placeholder="Select a  category"
+        formControlName="categoryIds" [multiple]="true">
       </ng-select>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+
+    <button type="button" *ngIf="!productId" (click)="submitForm()" class="btn btn-primary"
+      [disabled]="productForm.invalid">Create</button>
+    <button type="button" *ngIf="productId" (click)="updateProduct()" class="btn btn-primary"
+      [disabled]="productForm.invalid">Update</button>
   </form>
 
 </div>

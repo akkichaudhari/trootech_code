@@ -95,7 +95,7 @@ const removeCategory = async (req, res) => {
       return res.status(200).json({
         status: "success",
         status_code: 200,
-        message: "PRODUCT_CATEGORY.REMOVE_PRODUCT_CATEGORY",
+        message: "remove category successfully",
       });
     return res.status(500).json({
       status: "fail",
@@ -136,7 +136,7 @@ const updateCategory = async (req, res) => {
       return res.status(403).json({
         status: "fail",
         status_code: 403,
-        error: "PRODUCT_CATEGORY.CATEGORY_TITLE_EXIST",
+        error: "category already exists",
       });
     }
     value.id = parseInt(req.params.id);
@@ -145,12 +145,12 @@ const updateCategory = async (req, res) => {
       return res.status(200).json({
         status: "success",
         status_code: 200,
-        message: "PRODUCT_CATEGORY.UPDATE_PRODUCT_CATEGORY_SUCCESS",
+        message: "category updated successfully",
       });
     return res.status(500).json({
       status: "fail",
       status_code: 500,
-      error: "PRODUCT_CATEGORY.UPDATE_PRODUCT_CATEGORY_FAIL",
+      error: "category update faild",
     });
   } catch (error) {
     console.log("error-->", error);

@@ -5,5 +5,5 @@ router.route("/add").post(productController.addProduct);
 router.route("/list").get(productController.getProductList);
 router.route("/detail/:id").get(productController.getDetailProduct);
 router.route("/:id").delete(productController.removeProduct);
-// router.route("/update/:id").put(productController.updateCategory);
+router.route("/update/:id").put(productController.updateProduct);
 module.exports = router;

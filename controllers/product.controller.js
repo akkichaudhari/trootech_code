@@ -71,7 +71,7 @@ const addProduct = async (req, res) => {
 
 const getDetailProduct = async (req, res) => {
   try {
-    const product = await productService.getProductById({
+    const product = await productService.getProductDetail({
       id: req.params.id,
     });
     return res
@@ -96,7 +96,7 @@ const removeProduct = async (req, res) => {
       return res.status(200).json({
         status: "success",
         status_code: 200,
-        message: "PRODUCT_CATEGORY.REMOVE_PRODUCT_CATEGORY",
+        message: "Remove product successfully",
       });
     return res.status(500).json({
       status: "fail",
@@ -118,7 +118,8 @@ const updateProduct = async (req, res) => {
     const { body } = req;
     const authSchema = Joi.object().keys({
       name: Joi.string().min(2).max(120).required(),
-      parrent_Id: Joi.number().optional(),
+      price: Joi.number().optional(),
+      categoryIds: Joi.array().optional(),
     });
     let { value, error } = authSchema.validate(body);
     if (error) {
@@ -130,28 +131,31 @@ const updateProduct = async (req, res) => {
     }
 
     const condition = {
-      [Op.and]: [{ name: value.name }, { id: { [Op.not]: req.params.id } }],
+      [Op.and]: [
+        { name: value.name, price: value.price },
+        { id: { [Op.not]: req.params.id } },
+      ],
     };
-    let productExist = await productService.getProductById(condition);
+    let productExist = await productService.getProductDetail(condition);
     if (productExist) {
       return res.status(403).json({
         status: "fail",
         status_code: 403,
-        error: "PRODUCT_CATEGORY.CATEGORY_TITLE_EXIST",
+        error: "Product exists already",
       });
     }
     value.id = parseInt(req.params.id);
-    let updatedProduct = await productService.updateProductById(value);
+    let updatedProduct = await productService.updateProductDetail(value);
     if (updatedProduct[0] === 1)
       return res.status(200).json({
         status: "success",
         status_code: 200,
-        message: "PRODUCT_CATEGORY.UPDATE_PRODUCT_CATEGORY_SUCCESS",
+        message: "Product updated successfully",
       });
     return res.status(500).json({
       status: "fail",
       status_code: 500,
-      error: "PRODUCT_CATEGORY.UPDATE_PRODUCT_CATEGORY_FAIL",
+      error: "update product failed",
     });
   } catch (error) {
     console.log("error-->", error);
