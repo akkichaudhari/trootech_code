@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CategoryService } from 'src/app/services/category.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category-form',
@@ -14,7 +15,8 @@ export class CategoryFormComponent {
 
   constructor(private formBuilder: FormBuilder
     , private categoryService: CategoryService,
-    public bsModalRef: BsModalRef) { }
+    public bsModalRef: BsModalRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.initCategoryForm();
@@ -39,12 +41,15 @@ export class CategoryFormComponent {
     this.categoryService.createCategory(categoryData)
       .subscribe(
         (response: any) => {
+          this.toastr.success('Category created successfully')
           console.log('Category created successfully:', response);
           // Reset the form after successful creation
           this.categoryForm.reset();
           this.bsModalRef.hide()
         },
         (error: any) => {
+          this.toastr.error(error.message)
+
           console.error('Error creating category:', error);
         }
       );
@@ -58,6 +63,8 @@ export class CategoryFormComponent {
         this.parentCategories = response.data;
       },
       (error: any) => {
+
+        this.toastr.error(error.message)
         console.error('Error loading categories:', error);
       }
     );
@@ -73,6 +80,8 @@ export class CategoryFormComponent {
             this.categoryForm.patchValue(category.data);
           },
           (error) => {
+
+            this.toastr.error(error.message)
             console.error('Error loading category:', error);
           }
         );
@@ -86,13 +95,16 @@ export class CategoryFormComponent {
 
     const categoryData = this.categoryForm.value;
     categoryData.parent_id ? categoryData.parent_id : delete categoryData.parent_id
-     this.categoryService.updateCategory(this.categoryId, categoryData)
+    this.categoryService.updateCategory(this.categoryId, categoryData)
       .subscribe(
         (response) => {
+          this.toastr.success("Category updated successfully")
           console.log('Category updated successfully:', response);
           this.bsModalRef.hide();
         },
         (error) => {
+
+          this.toastr.error(error.message)
           console.error('Error updating category:', error);
         }
       );

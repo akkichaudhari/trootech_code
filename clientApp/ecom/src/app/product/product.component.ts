@@ -4,6 +4,7 @@ import { ProductService } from '../services/product.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CategoryService } from '../services/category.service';
 import { ProductFormComponent } from './product-form/product-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,9 @@ export class ProductComponent {
 
   constructor(private categoryService: CategoryService
     , private productService: ProductService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private toastr: ToastrService
+  ) { }
 
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class ProductComponent {
         this.products = res.data;
       },
       (error: any) => {
+        this.toastr.error(error.message)
         console.error('Error loading products:', error);
       }
     );
@@ -65,8 +69,12 @@ export class ProductComponent {
             // Remove the deleted category from the categories array
             this.loadProducts()
             console.log('product deleted successfully');
+            this.toastr.success('product deleted successfully')
+
           },
           (error) => {
+            this.toastr.error(error.message)
+
             console.error('Error deleting product:', error);
           }
         );

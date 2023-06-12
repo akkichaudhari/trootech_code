@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CategoryService } from '../services/category.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { CategoryFormComponent } from './category-form/category-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-category',
@@ -13,7 +14,8 @@ export class CategoryComponent {
   bsModalRef: BsModalRef = undefined!;
 
   constructor(private categoryService: CategoryService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -33,6 +35,8 @@ export class CategoryComponent {
         this.categories = response.data;
       },
       (error: any) => {
+        this.toastr.error(error.message)
+
         console.error('Error loading categories:', error);
       }
     );
@@ -58,9 +62,13 @@ export class CategoryComponent {
           () => {
             // Remove the deleted category from the categories array
             this.loadCategories()
+            this.toastr.success("Category deleted successfully")
+
             console.log('Category deleted successfully');
           },
           (error) => {
+            this.toastr.error(error.message)
+
             console.error('Error deleting category:', error);
           }
         );

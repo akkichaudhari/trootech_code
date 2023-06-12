@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { CategoryService } from 'src/app/services/category.service';
 import { Product } from '../product';
 import { ProductService } from 'src/app/services/product.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-form',
@@ -16,7 +17,7 @@ export class ProductFormComponent {
 
   constructor(private formBuilder: FormBuilder
     , private categoryService: CategoryService,
-    public bsModalRef: BsModalRef,
+    public bsModalRef: BsModalRef, private toastr: ToastrService,
     private productService: ProductService) { }
 
   ngOnInit() {
@@ -59,6 +60,8 @@ export class ProductFormComponent {
     this.productService.createProduct(product).subscribe(() => {
       this.bsModalRef.hide();
       console.log("product created");
+      this.toastr.success('product created successfully')
+
     }, error => { })
   }
 
@@ -75,6 +78,7 @@ export class ProductFormComponent {
           },
           (error) => {
             console.error('Error loading product:', error);
+
           }
         );
     }
@@ -87,14 +91,18 @@ export class ProductFormComponent {
 
     const productData = this.productForm.value;
     productData.categoryIds ? productData.categoryIds : delete productData.categoryIds
- 
+
     this.productService.updateProduct(this.productId, productData)
       .subscribe(
         (response) => {
+          this.toastr.success('product updated successfully')
+
           console.log('product updated successfully:', response);
           this.bsModalRef.hide();
         },
         (error) => {
+          this.toastr.error(error.message);
+
           console.error('Error updating category:', error);
         }
       );

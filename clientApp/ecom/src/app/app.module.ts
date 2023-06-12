@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ProductFormComponent } from './product/product-form/product-form.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,10 +26,15 @@ import { ProductFormComponent } from './product/product-form/product-form.compon
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule, // required animations module
+
     FormsModule, ReactiveFormsModule,
     ModalModule.forRoot(),
-    NgSelectModule
-  ],
+    NgSelectModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }
+    ),],
   providers: [],
   bootstrap: [AppComponent]
 })
