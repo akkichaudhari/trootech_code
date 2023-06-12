@@ -1,9 +1,41 @@
 const models = require("../models");
 const productModels = models.product;
+const categoryModels = models.category;
+const productCategoryModels = models.product_categories;
+
+const { sequelize } = require("../models/index");
 
 const addProduct = async (productDetail) => {
   try {
-    return await productModels.create(productDetail);
+    const { name, categoryIds, price } = productDetail;
+
+    const t = await sequelize.transaction();
+
+    try {
+      const product = await productModels.create(
+        { name, price },
+        { transaction: t }
+      );
+
+      if (categoryIds && categoryIds.length > 0) {
+        await productCategoryModels.bulkCreate(
+          categoryIds.map((categoryId) => ({
+            productId: product.id,
+            categoryId,
+          })),
+          { transaction: t }
+        );
+      }
+
+      // Commit the transaction
+      await t.commit();
+
+      return product;
+    } catch (error) {
+      // Rollback the transaction if an error occurs
+      await t.rollback();
+      return error;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -12,7 +44,7 @@ const addProduct = async (productDetail) => {
 const getAllProduct = async () => {
   try {
     return await productModels.findAll({
-      distinct: true,
+      include: { model: categoryModels, through: { attributes: [] } },
     });
   } catch (error) {
     console.log(error);
@@ -21,7 +53,10 @@ const getAllProduct = async () => {
 
 const getProductDetail = async (condition) => {
   try {
-    return await productModels.findOne({ where: condition });
+    return await productModels.findOne({
+      where: condition,
+      include: { model: categoryModels, through: { attributes: [] } },
+    });
   } catch (error) {
     console.log(error);
   }
@@ -39,7 +74,24 @@ const updateProductDetail = async (productDetail) => {
 
 const removeProduct = async (condition) => {
   try {
-    return await productModels.destroy({ where: condition });
+    const t = await sequelize.transaction();
+
+    try {
+      await productCategoryModels.destroy({
+        transaction: t,
+        where: { productId: condition.id },
+      });
+
+      await productModels.destroy({ where: condition, transaction: t });
+      // Commit the transaction
+      await t.commit();
+
+      return true;
+    } catch (error) {
+      // Rollback the transaction if an error occurs
+      await t.rollback();
+      return error;
+    }
   } catch (error) {
     console.log(error);
   }

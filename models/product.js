@@ -1,4 +1,4 @@
-const Category = require("./category"); // Import the Category model
+const productCategory = require("./product-category"); // Import the Category model
 module.exports = (sequelize, DataTypes) => {
   const Product = sequelize.define("product", {
     id: {
@@ -11,19 +11,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    category_id: {
-      type:  DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: Category,
-        key: "id",
-      },
-    },
+    }
+  },
+  {
+    timestamps: false, // Disable automatic generation of createdAt and updatedAt fields
   });
   Product.associate = (models) => {
-    Product.belongsTo(models.category, {
-      foreignKey: "category_id",
-    });
-  };
+    Product.belongsToMany(models.category, { through: "product_categories", foreignKey: 'productId' });
+  }
   return Product;
 };

@@ -42,6 +42,7 @@ export class CategoryFormComponent {
           console.log('Category created successfully:', response);
           // Reset the form after successful creation
           this.categoryForm.reset();
+          this.bsModalRef.hide()
         },
         (error: any) => {
           console.error('Error creating category:', error);
@@ -84,7 +85,8 @@ export class CategoryFormComponent {
     }
 
     const categoryData = this.categoryForm.value;
-    this.categoryService.updateCategory(this.categoryId, categoryData)
+    categoryData.parent_id ? categoryData.parent_id : delete categoryData.parent_id
+     this.categoryService.updateCategory(this.categoryId, categoryData)
       .subscribe(
         (response) => {
           console.log('Category updated successfully:', response);

@@ -22,6 +22,9 @@ export class CategoryComponent {
   openCatForm() {
     this.bsModalRef = this.modalService.show(CategoryFormComponent,
       { class: 'modal-xl' });
+    this.bsModalRef.onHidden!.subscribe(() => {
+      this.loadCategories();
+    });
   }
 
   loadCategories(): void {
@@ -41,6 +44,9 @@ export class CategoryComponent {
     };
     this.bsModalRef = this.modalService.show(CategoryFormComponent, { initialState });
     this.bsModalRef.content.bsModalRef = this.bsModalRef;
+    this.bsModalRef.onHidden!.subscribe(() => {
+      this.loadCategories();
+    });
   }
 
   deleteCategory(categoryId: number): void {

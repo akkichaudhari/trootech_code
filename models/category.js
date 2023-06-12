@@ -26,5 +26,15 @@ module.exports = (sequelize) => {
     }
   );
 
+  Category.associate = (models) => {
+    Category.belongsToMany(models.product, {
+      through: "product_categories",
+      foreignKey: "categoryId",
+    });
+    Category.belongsTo(models.category, {
+      foreignKey: "parent_id",
+      as: "parentCategory",
+    });
+  };
   return Category;
 };

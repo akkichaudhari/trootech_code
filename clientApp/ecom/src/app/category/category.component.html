@@ -7,7 +7,7 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
-          <th>Parent ID</th>
+          <th>Parent Category</th>
           <th>Actions</th> <!-- New column for actions -->
         </tr>
       </thead>
@@ -15,7 +15,7 @@
         <tr *ngFor="let category of categories">
           <td>{{ category.id }}</td>
           <td>{{ category.name }}</td>
-          <td>{{ category.parent_id }}</td>
+          <td>{{ category?.parentCategory?.name }}</td>
           <td>
             <button class="btn btn-sm btn-primary m-2" (click)="openEditModal(category.id)">Edit</button>
             <button class="btn btn-sm btn-danger" (click)="deleteCategory(category.id)">Delete</button>

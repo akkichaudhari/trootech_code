@@ -91,7 +91,7 @@ const removeCategory = async (req, res) => {
     const category = await categoryService.removeCategory({
       id: req.params.id,
     });
-    if (category === 1)
+    if (category)
       return res.status(200).json({
         status: "success",
         status_code: 200,
@@ -117,7 +117,7 @@ const updateCategory = async (req, res) => {
     const { body } = req;
     const authSchema = Joi.object().keys({
       name: Joi.string().min(2).max(120).required(),
-      parrent_Id: Joi.number().optional(),
+      parent_id: Joi.number().optional(),
     });
     let { value, error } = authSchema.validate(body);
     if (error) {
