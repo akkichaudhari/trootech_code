@@ -32,7 +32,7 @@ Set up the MySQL database:
 create `ecom` db
 
 ## Create a new database named angular_node_db
-Update the database connection details in config/database.js
+Update the database connection details in config/config.js
 
 ## Run the migrations to create the necessary tables
 
