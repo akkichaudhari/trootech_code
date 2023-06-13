@@ -11,8 +11,8 @@ This is a sample project that demonstrates the integration of Angular frontend w
 
 ## Prerequisites
 
-- Node.js (version X.X.X)
-- Angular CLI (version X.X.X)
+- Node.js (version 16+)
+- Angular CLI (version 15)
 - MySQL database
 
 ## Installation
@@ -20,20 +20,19 @@ This is a sample project that demonstrates the integration of Angular frontend w
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/angular-node-project.git
-
+git clone https://github.com/akshaychaudhari1994/trootech_code.git
 ## Install dependencies for the frontend:
-cd angular-node-project/frontend
+cd clientApp/ecom
 npm install
 
 ## Install dependencies for the backend:
-cd ../backend
 npm install
 
 Set up the MySQL database:
+create `ecom` db
 
 ## Create a new database named angular_node_db
-Update the database connection details in backend/config/database.js
+Update the database connection details in config/database.js
 
 ## Run the migrations to create the necessary tables
 
