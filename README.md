@@ -23,7 +23,7 @@ This is a sample project that demonstrates the integration of Angular frontend w
 git clone https://github.com/akshaychaudhari1994/trootech_code.git
 ## Install dependencies for the frontend:
 cd clientApp/ecom
-npm install
+npm install --legacy-peer-deps 
 
 ## Install dependencies for the backend:
 npm install
